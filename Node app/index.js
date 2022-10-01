@@ -16,8 +16,10 @@ const authRoute = require("./routes/auth");
 dotenv.config();
 
 //connecting to mongo database
-mongoose.connect(process.env.MOGO_URL, {useNewUrlParser: true}, () => {
-    console.log("Connected to Mongo DB")
+mongoose.connect(process.env.MONGO_URL).then(() => {
+    console.log("Connection successfull")
+}).catch((e) => {
+    console.log(e.message)
 });
 
 //middleware
