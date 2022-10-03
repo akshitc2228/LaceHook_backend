@@ -25,7 +25,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 //middleware
 app.use(express.json());
 app.use(helmet());
-app.use(morgan("common"));
+app.use(morgan("common")); //the format inside morgan() [in this case common] defines how you want to display the stats
 
 //ROUTES ARE BEING USED HERE
 app.use("/users", userRoute);
