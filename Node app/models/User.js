@@ -46,6 +46,26 @@ const userSchema = new mongoose.Schema({
     isAdmin : {
         type: Boolean,
         efault: false
+    },
+
+    description : {
+        type: String,
+        max: 50
+    },
+
+    city : {
+        type: String,
+        max: 50
+    },
+
+    from : {
+        type: String,
+        max: 50
+    },
+
+    relationshipStatus : {
+        type: Number,
+        enum: [1,2,3]
     }
 },
 {timestamps: true} //When set to true, the mongoose creates two fields as follows: createdAt: Date representing when the document was created. updatedAt: Date representing when this document was last updated.

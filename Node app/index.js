@@ -32,5 +32,5 @@ app.use("/users", userRoute);
 app.use("/auth", authRoute);
 
 app.listen(8080, () => {
-    console.log("Backend server is running.") //listen(port, callback)
+    console.log("Backend server is running.") //listen(port, callback); listen indicates a readiness to accept client connection
 })
