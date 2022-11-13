@@ -65,7 +65,7 @@ router.put("/:id/follow", async(req, res) => {
 
             if(!user.followers.includes(req.body.userId)) { //if who the user is trying to follow isn't already included in the user's followers
                 await user.updateOne({$push:{followers : req.body.userId}}); //Look into this syntax {$push : ...etc}. From my observation this is used when dealing with arrays?
-                await user.updateOne({$push:{following : req.params.id}});
+                await currUser.updateOne({$push:{following : req.params.id}});
                 res.status(200).json("You are now following this user");
             } else {
                 res.status(403).json("You are aleady following this user") //I'd like to add the name of the user instead of just user. Look into this.
@@ -79,6 +79,27 @@ router.put("/:id/follow", async(req, res) => {
 })
 
 //unfollow user
+
+router.put("/:id/unfollow", async(req, res) => {
+    if(req.body.userId !== req.params.id) {
+        try {
+            const user = await User.findById(req.params.id); //who we are looking to follow
+            const currUser = await User.findById(req.body.userId); //the user themself
+
+            if(user.followers.includes(req.body.userId)) { //if who the user is trying to follow isn't already included in the user's followers
+                await user.updateOne({$pull:{followers : req.body.userId}}); //Look into this syntax {$push : ...etc}. From my observation this is used when dealing with arrays?
+                await currUser.updateOne({$pull:{following : req.params.id}});
+                res.status(200).json("Unfollowed from this user");
+            } else {
+                res.status(403).json("You don't follow this user") //I'd like to add the name of the user instead of just user. Look into this.
+            }
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    } else {
+        res.status(400).json("You cannot un-follow yourself. Please select another user")
+    }
+})
 
 router.get("/", (req, res) => {
     res.send("user route")

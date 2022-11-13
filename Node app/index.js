@@ -11,6 +11,7 @@ const morgan = require("morgan");
 //ROUTES HAVE BEEN IMPORTED HERE:
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
+const postRoute = require("./routes/posts");
 
 //to use .env use config() to configure
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(morgan("common")); //the format inside morgan() [in this case common] de
 //ROUTES ARE BEING USED HERE
 app.use("/users", userRoute);
 app.use("/auth", authRoute);
+app.use("/posts", postRoute);
 
 app.listen(8080, () => {
     console.log("Backend server is running.") //listen(port, callback); listen indicates a readiness to accept client connection
