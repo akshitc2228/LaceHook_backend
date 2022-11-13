@@ -59,7 +59,7 @@ router.put("/:id/like", async(req, res) => {
 });
 
 //get post
-router.get(":/id", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         res.status(200).json(post);
@@ -69,5 +69,20 @@ router.get(":/id", async (req, res) => {
 });
 
 //get timeline (get all posts)
+//if you follow a user their posts will show in your timeline as well else just yours
+router.get("/timeline/all", async(req, res) => {
+    try {
+        const currUser = await User.findById(req.body.userId);
+        const userPosts = await Post.find({userId : currUser._id}); //?
+        const friendsPosts = await Promise.all(
+            currUser.following.map((friendId) => {
+                return Post.find({userId : friendId});
+            })
+        ); //?
+        res.json(userPosts.concat(...friendsPosts))
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router;
